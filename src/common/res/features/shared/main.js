@@ -3,8 +3,13 @@ window.ynabToolKit = new function() {
     // This variable is populated by each active script loaded inside the ynabToolKit object
     this.featureOptions = {},
 
-    //When this is true, the feature scripts will know they are ready to execute
+    // When this is true, the feature scripts will know they are ready to execute
     this.pageReady = {},
+
+    // This value is meant to be updated by ynabToolKit.availableBalanceSnapshot()
+    this.presentTotal = 0,
+
+    this.cachedTotal = 'init',
 
     // This function returns all visible transactions matching accountId.
     // If accountId === 'null' then all transactions for all accounts are returned with the visibility
@@ -81,6 +86,22 @@ window.ynabToolKit = new function() {
             }
         }
         return visibleTransactions;
+    },
+
+    // Pass over each available category balance and provide a total. This can be used to
+    // evaluate if a feature script needs to continue based on an update to the budget.
+    this.availableBalanceSnapshot = function() {
+        var totalAvailable = 0;
+        
+        // Find and collect the available balances of each category in the budget
+        var availableBalances = $('.budget-table-cell-available').find('span.user-data.currency').map(function() {
+            availableBalance = $(this).html();
+            return Number(availableBalance.replace(/[^\d.-]/g, '')); 
+        });
+        
+        // Add each balance together to get the total available sum
+        $.each(availableBalances,function(){totalAvailable+=parseFloat(this) || 0;});
+        return totalAvailable;
     };
 
 }; // end ynabToolKit object
