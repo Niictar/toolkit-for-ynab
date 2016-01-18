@@ -91,17 +91,13 @@ window.ynabToolKit = new function() {
     // Pass over each available category balance and provide a total. This can be used to
     // evaluate if a feature script needs to continue based on an update to the budget.
     this.availableBalanceSnapshot = function() {
-        var totalAvailable = 0;
         
-        // Find and collect the available balances of each category in the budget
-        var availableBalances = $('.budget-table-cell-available').find('span.user-data.currency').map(function() {
-            availableBalance = $(this).html();
-            return Number(availableBalance.replace(/[^\d.-]/g, '')); 
+        return $('.budget-table-cell-available').find('span.user-data.currency').map(function() {
+            return Number($(this).text().replace(/[^\d-]/g, '')); 
+        }).toArray().reduce(function(acc, next) {
+            return acc + next;
         });
-        
-        // Add each balance together to get the total available sum
-        $.each(availableBalances,function(){totalAvailable+=parseFloat(this) || 0;});
-        return totalAvailable;
+    
     };
 
 }; // end ynabToolKit object
