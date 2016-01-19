@@ -2,8 +2,19 @@
   if ( typeof ynabToolKit !== "undefined" && ynabToolKit.actOnChangeInit === true ) {
 
     ynabToolKit.insertPacingColumns = function ()  {
-      
+
       var storePacingLocally = true;
+
+      // Check to see if we continue running the script. If the available balance has not changed since last time
+      // then we don't need to continue, and we just call return.
+      ynabToolKit.shared.availableBalance.presentTotal = ynabToolKit.shared.availableBalance.snapshot();
+
+      if ( ynabToolKit.shared.availableBalance.presentTotal === ynabToolKit.shared.availableBalance.cachedTotal ) {
+        return;
+      };
+
+      // Store a snapshot of the existing available balance to compare for next time
+      ynabToolKit.shared.availableBalance.cachedTotal = ynabToolKit.shared.availableBalance.snapshot();
 
       // Calculate the proportion of the month that has been spent -- only works for the current month
       function timeSpent() {
@@ -69,8 +80,7 @@
             setting.mergeBackDetachedEntity();
           }
         }
-      }
-      
+      }      
 
       var tv = ynab.YNABSharedLib.getBudgetViewModel_AllBudgetMonthsViewModel()._result.getAllAccountTransactionsViewModel();
       var month = tv.getBudgetMonthViewModelForCurrentMonth().getMonth();
@@ -84,6 +94,7 @@
         } else {
           $('#ynab-toolkit-pacing-style').remove();
           $('<style type="text/css" id="ynab-toolkit-pacing-style"> .budget-table-cell-pacing { display: none; } </style>').appendTo('head');
+          return;
         }
         
         

@@ -65,6 +65,10 @@
             if ( ynabToolKit.options.resizeInspector ){
               ynabToolKit.resizeInspector();
             }
+            if ( ynabToolKit.options.pacing ){
+              ynabToolKit.insertPacingColumns();
+              ynabToolKit.shared.availableBalance.cachedTotal = 'init';
+            }
             break;
           }
 
