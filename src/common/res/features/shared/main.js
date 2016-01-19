@@ -1,3 +1,8 @@
+console.log("Extension 'Toolkit for YNAB' installed and active.");
+console.log("'Toolkit for YNAB' is an experimental community effort and comes with absolutely no warranty. Please contact the 'Toolkit for YNAB' team to learn how to help or contribute.");
+console.log("");
+console.log("%c%s", "font-size:1.2em;", "IMPORTANT: Running code in this console in an attempt to unlock hidden features will not work and puts your account at risk. All features available from 'Toolkit for YNAB' are directly available from the options page. If you suspect a bug is causing undesired behavior, it is recommended that you uninstall 'Toolkit for YNAB' completely.");
+
 window.ynabToolKit = new function() {
 
     // This variable is populated by each active script loaded inside the ynabToolKit object
