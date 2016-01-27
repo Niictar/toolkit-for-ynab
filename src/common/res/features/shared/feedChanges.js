@@ -58,6 +58,10 @@
         ynabToolKit.checkCreditBalances.observe(changedNodes);
       } catch(err) {/* ignore */}
 
+      try {
+        ynabToolKit.exportTransactions.observe(changedNodes);
+      } catch(err) {/* ignore */}
+
     };
 
   } else {
